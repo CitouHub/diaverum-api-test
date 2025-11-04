@@ -11,7 +11,7 @@ namespace Diaverum.Test.Service
 {
     public class DiaverumItemServiceTest
     {
-        private static IMapper mapper = MapperHelper.DefineMapper();
+        private static readonly IMapper mapper = MapperHelper.DefineMapper();
 
         public class AddDiaverumItem
         {

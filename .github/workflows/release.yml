@@ -1,4 +1,4 @@
-name: Compago release
+name: Diaverum API release
 
 env:
   DOTNET_VERSION: '9'
@@ -30,8 +30,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Exclude Compago.Test project
-        run: dotnet sln remove Compago.Test/Compago.Test.csproj
+      - name: Exclude Diaverum.Test project
+        run: dotnet sln remove Diaverum.Test/Diaverum.Test.csproj
 
       - name: Build ${{env.APP_PROJECT_NAME}}
         run: dotnet build ${{env.API_PROJECT_NAME}} --configuration Release
