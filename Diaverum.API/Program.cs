@@ -72,7 +72,6 @@ app.UseSwaggerUI();
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
-
 app.MapControllers();
 
 app.Run();
