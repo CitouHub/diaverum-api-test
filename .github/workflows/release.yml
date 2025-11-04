@@ -1,0 +1,71 @@
+name: Compago release
+
+env:
+  DOTNET_VERSION: '9'
+  API_PROJECT_NAME: Diavreum.API
+  API_NAME: wa-diaverum-api
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build_api:
+    name: API Build
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Set up dependency caching for faster builds
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Exclude Compago.Test project
+        run: dotnet sln remove Compago.Test/Compago.Test.csproj
+
+      - name: Build ${{env.APP_PROJECT_NAME}}
+        run: dotnet build ${{env.API_PROJECT_NAME}} --configuration Release
+
+      - name: Publish with dotnet
+        run: dotnet publish --configuration Release --property:PublishDir=${{ env.DOTNET_ROOT }}/${{ env.API_NAME }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.API_NAME }}
+          path: ${{ env.DOTNET_ROOT }}/${{ env.API_NAME }}
+
+  deploy_api:
+    name: API Deploy
+    runs-on: ubuntu-24.04
+    needs: build_api
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.API_NAME }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.API_NAME }}
+          publish-profile: ${{ secrets.AZURE_DIAVERUM_API_PUBLISH_PROFILE }}
+          package: .
+
+      - name: Delete build artifact
+        if: always()
+        uses: geekyeggo/delete-artifact@v5
+        with:
+            name: ${{ env.API_NAME }}      
