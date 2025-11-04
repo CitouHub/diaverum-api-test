@@ -1,49 +1,42 @@
-﻿//using AutoMapper;
-//using Diaverum.Domain;
-//using Diaverum.Test.Helper;
-//using Diaverum.Test.Helper.Domain.ExternalSource.MicrosoftAzure;
-//using System.Globalization;
+﻿using AutoMapper;
+using Diaverum.Data;
+using Diaverum.Domain;
+using Diaverum.Test.Helper;
+using Diaverum.Test.Helper.Domain;
 
-//namespace Diaverum.Test.Mapping
-//{
-//    public class DiaverumItemMappingTest
-//    {
-//        private static readonly IMapper _mapper = MapperHelper.DefineMapper();
+namespace Diaverum.Test.Mapping
+{
+    public class DiaverumItemMappingTest
+    {
+        private static readonly IMapper _mapper = MapperHelper.DefineMapper();
 
-//        public class InvoiceMapping
-//        {
-//            [Fact]
-//            public static void ToDTO_WithoutBill()
-//            {
-//                // Arrange
-//                var monthly = MonthlyHelper.New(issueDate: new DateTime(2025, 01, 01));
+        public class InvoiceMapping
+        {
+            [Fact]
+            public static void ToDTO()
+            {
+                // Arrange
+                var diaverumItemDb = DiaverumItemHelper.NewDb();
 
-//                // Act
-//                var dto = _mapper.Map<InvoiceDTO>(monthly);
+                // Act
+                var dto = _mapper.Map<DiaverumItemDTO>(diaverumItemDb);
 
-//                // Assert
-//                Assert.NotNull(dto);
-//                Assert.Equal(monthly.IssueDate, dto.Date);
-//                Assert.Equal(0, dto.Price);
-//                Assert.Null(dto.Id);
-//            }
+                // Assert
+                Assert.NotNull(dto);
+            }
 
-//            [Fact]
-//            public static void ToDTO_WithBill()
-//            {
-//                // Arrange
-//                var monthly = MonthlyHelper.New(issueDate: new DateTime(2025, 01, 01));
-//                monthly.Bill = BillHelper.New();
+            [Fact]
+            public static void ToDB()
+            {
+                // Arrange
+                var diaverumItem = DiaverumItemHelper.New();
 
-//                // Act
-//                var dto = _mapper.Map<InvoiceDTO>(monthly);
+                // Act
+                var dto = _mapper.Map<DiaverumItem>(diaverumItem);
 
-//                // Assert
-//                Assert.NotNull(dto);
-//                Assert.Equal(monthly.IssueDate, dto.Date);
-//                Assert.Equal(double.Parse(monthly.Bill.MoneyToPay.Replace(",", "."), CultureInfo.InvariantCulture), dto.Price);
-//                Assert.Equal(monthly.Bill.Reference.ToString(), dto.Id);
-//            }
-//        }
-//    }
-//}
+                // Assert
+                Assert.NotNull(dto);
+            }
+        }
+    }
+}
