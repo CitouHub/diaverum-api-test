@@ -3,7 +3,7 @@ name: Diaverum API release
 env:
   DOTNET_VERSION: '9'
   API_PROJECT_NAME: Diaverum.API
-  API_NAME: wa-diaverum-api
+  API_NAME: wa-diaverum
 
 on:
   release:
