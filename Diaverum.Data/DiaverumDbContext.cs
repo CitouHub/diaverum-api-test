@@ -41,6 +41,7 @@ public partial class DiaverumDbContext : DbContext
 
             entity.Property(e => e.Barcode).HasMaxLength(100);
             entity.Property(e => e.ClinicNo).HasMaxLength(100);
+            entity.Property(e => e.CollentionTime).HasPrecision(0);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Dbo).HasColumnName("DBO");
             entity.Property(e => e.Gender).HasMaxLength(10);

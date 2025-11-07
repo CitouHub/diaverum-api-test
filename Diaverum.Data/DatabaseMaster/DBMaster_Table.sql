@@ -36,7 +36,7 @@ CREATE TABLE [dbo].[LabResult](
 	[DBO] [date] NOT NULL,
 	[Gender] [nvarchar](10) NOT NULL,
 	[CollentionDate] [date] NOT NULL,
-	[CollentionTime] [time] NOT NULL,
+	[CollentionTime] [time](0) NOT NULL,
 	[TestCode] [nvarchar](100) NOT NULL,
 	[TestName] [nvarchar](100) NOT NULL,
 	[Result] [decimal](8, 4) NULL,
