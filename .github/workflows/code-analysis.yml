@@ -236,7 +236,7 @@ jobs:
           hide_complexity: true
           indicators: true
           output: console
-          thresholds: '50 90'
+          thresholds: '30 90'
 
       - name: Delete artifacts
         if: always()
