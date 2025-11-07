@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using AutoMapper;
+using Diaverum.API;
 using Diaverum.API.ExceptionHandling;
 using Diaverum.API.SwaggerConfig;
 using Diaverum.Data;
@@ -16,7 +17,9 @@ var logger = LoggerFactory.Create(config =>
     config.AddConfiguration(builder.Configuration.GetSection("Logging"));
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(
+    options => options.InputFormatters.Add(new PlainTextFormatter())
+  );
 builder.Services.AddApiVersioning(opt =>
 {
     opt.DefaultApiVersion = new ApiVersion(1, 0);
@@ -56,6 +59,7 @@ var mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IDiaverumItemService, DiaverumItemService>();
+builder.Services.AddScoped<ILabResultService, LabResultService>();
 
 var app = builder.Build();
 

@@ -38,6 +38,7 @@ namespace Diaverum.API.ExceptionHandling
                 switch (serviceException.ExceptionType)
                 {
                     case ExceptionType.InvalidRequest:
+                    case ExceptionType.InvalidLabResult:
                         status = HttpStatusCode.BadRequest;
                         title = "Request invalid";
                         typeUrl = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1";

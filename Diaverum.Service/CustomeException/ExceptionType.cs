@@ -3,6 +3,7 @@
     public enum ExceptionType
     {
         InvalidRequest,
+        InvalidLabResult,
         ItemNotFound
     }
 }
